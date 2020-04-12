@@ -70,7 +70,7 @@ const covid19ImpactEstimator = (data) => {
 
   // compute casesForICUByRequestedTime for impact and severe impact - challange  3
   const computeCasesForICUByRequestedTimeForImpact = (inputData) => Math.trunc(computeInfectionsByRequestedTimeForImpact(inputData) * 0.05);
-  const computeCasesForICUByRequestedTimeForSevere = (inputData) => Math.trunc(computeInfectionsByRequestedTimeForImpact(inputData) * 0.05);
+  const computeCasesForICUByRequestedTimeForSevere = (inputData) => Math.trunc(computeInfectionsByRequestedTimeForSevereImpact(inputData) * 0.05);
 
   // compute casesForVentilatorsByRequestedTime for impact and severe impact - challange  3
   const computeCasesForVentilatorsByRequestedTimeForImpact = (inputData) => Math.trunc(computeInfectionsByRequestedTimeForImpact(inputData) * 0.02);
