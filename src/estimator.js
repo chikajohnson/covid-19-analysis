@@ -54,25 +54,61 @@ const covid19ImpactEstimator = (data) => {
     computeInfectionsByRequestedTimeForSevereImpact(inputData) * 0.15
   );
 
+  // compute hospitalBedsByRequestedTime for impact and severe impact - challange  2
+  const computeHospitalBedsByRequestedTimeForImpact = (inputData) => {
+    const hospitalBeds = Math.trunc(inputData.totalHospitalBeds * 0.35);
+    return computeSevereCasesByRequestedTimeForImpact(inputData) - hospitalBeds;
+  };
+  const computeHospitalBedsByRequestedTimeForSevereImpact = (inputData) => {
+    const hospitalBeds = Math.trunc(inputData.totalHospitalBeds * 0.35);
+    return computeSevereCasesByRequestedTimeForSevereImpact(inputData) - hospitalBeds;
+  };
+
+  // compute casesForVentilatorsByRequestedTime for impact and severe impact - challange  2
+  // const computeCasesForVentilatorsForImpact = (inputData) => computeInfectionsByRequestedTimeForImpact(inputData) * 0.05;
+  // const computeCasesForVentilatorsForImpactForSevereImpact = (inputData) => computeInfectionsByRequestedTimeForSevereImpact(inputData) * 0.05;
+
+  // compute casesForICUByRequestedTime for impact and severe impact - challange  3
+  const computeCasesForICUByRequestedTimeForImpact = (inputData) => Math.trunc(computeInfectionsByRequestedTimeForImpact(inputData) * 0.05);
+  const computeCasesForICUByRequestedTimeForSevere = (inputData) => Math.trunc(computeInfectionsByRequestedTimeForImpact(inputData) * 0.05);
+
+  // compute casesForVentilatorsByRequestedTime for impact and severe impact - challange  3
+  const computeCasesForVentilatorsByRequestedTimeForImpact = (inputData) => Math.trunc(computeInfectionsByRequestedTimeForImpact(inputData) * 0.02);
+  const computeCasesForVentilatorsByRequestedTimeForSevere = (inputData) => Math.trunc(computeInfectionsByRequestedTimeForImpact(inputData) * 0.02);
+
+  // compute dollarsInFlight for impact and severe impact - challange 3
+  const computeDollarsInFlightForImpact = (inputData) => {
+    const incomePerPopulation = inputData.region.avgDailyIncomePopulation;
+    const AvgDailyIcome = inputData.region.avgDailyIncomeInUSD;
+    return Math.trunc((computeInfectionsByRequestedTimeForImpact(inputData) * incomePerPopulation * AvgDailyIcome) / 30);
+  };
+  const computeDollarsInFlightForSevereImpact = (inputData) => {
+    const incomePerPopulation = inputData.region.avgDailyIncomePopulation;
+    const AvgDailyIcome = inputData.region.avgDailyIncomeInUSD;
+    return Math.trunc((computeInfectionsByRequestedTimeForSevereImpact(inputData) * incomePerPopulation * AvgDailyIcome) / 30);
+  };
+
   return {
     input,
     impact: {
       currentlyInfected: computeCurrentlyInfectedForImpact(input),
-      infectionsByRequestedTime: computeInfectionsByRequestedTimeForImpact(
-        input
-      ),
-      severeCasesByRequestedTime: computeSevereCasesByRequestedTimeForImpact(
-        input
-      )
+      infectionsByRequestedTime: computeInfectionsByRequestedTimeForImpact(input),
+      severeCasesByRequestedTime: computeSevereCasesByRequestedTimeForImpact(input),
+      hospitalBedsByRequestedTime: computeHospitalBedsByRequestedTimeForImpact(data),
+      //   casesForVentilatorsByRequestedTime: computeCasesForVentilatorsForImpact(data),
+      dollarsInFlight: computeDollarsInFlightForImpact(data),
+      casesForICUByRequestedTime: computeCasesForICUByRequestedTimeForImpact(data),
+      casesForVentilatorsByRequestedTime: computeCasesForVentilatorsByRequestedTimeForImpact(data)
     },
     severeImpact: {
       currentlyInfected: computeCurrentlyInfectedForSevereImpact(input),
-      infectionsByRequestedTime: computeInfectionsByRequestedTimeForSevereImpact(
-        input
-      ),
-      severeCasesByRequestedTime: computeSevereCasesByRequestedTimeForSevereImpact(
-        input
-      )
+      infectionsByRequestedTime: computeInfectionsByRequestedTimeForSevereImpact(input),
+      severeCasesByRequestedTime: computeSevereCasesByRequestedTimeForSevereImpact(input),
+      hospitalBedsByRequestedTime: computeHospitalBedsByRequestedTimeForSevereImpact(data),
+      // casesForVentilatorsByRequestedTime: computeCasesForVentilatorsForImpactForSevereImpact(data),
+      dollarsInFlight: computeDollarsInFlightForSevereImpact(data),
+      casesForICUByRequestedTime: computeCasesForICUByRequestedTimeForSevere(data),
+      casesForVentilatorsByRequestedTime: computeCasesForVentilatorsByRequestedTimeForSevere(data)
     }
   };
 };
