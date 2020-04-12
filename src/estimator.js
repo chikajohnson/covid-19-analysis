@@ -1,4 +1,5 @@
 const covid19ImpactEstimator = (data) => {
+    const input = data;
      /* sample input data
     {
         region: {
@@ -35,36 +36,36 @@ const covid19ImpactEstimator = (data) => {
     }
 
     //compute currectly infected for impact and severe impact - challange 1
-    const computeCurrentlyInfectedForImpact = (data) => data.reportedCases * 10;
-    const computeCurrentlyInfectedForSevereImpact = (data) => data.reportedCases * 50;
+    const computeCurrentlyInfectedForImpact = (input) => input.reportedCases * 10;
+    const computeCurrentlyInfectedForSevereImpact = (input) => input.reportedCases * 50;
 
     //compute InfectionsByRequestedTime for impact and severe impact - challange 1
-    const computeInfectionsByRequestedTimeForImpact = (data) => {
-        return computeCurrentlyInfectedForImpact(data) * 2 ** Math.trunc(convertToDays(data.timeToElapse, data.periodType) / 3);
+    const computeInfectionsByRequestedTimeForImpact = (input) => {
+        return computeCurrentlyInfectedForImpact(input) * 2 ** Math.trunc(convertToDays(input.timeToElapse, input.periodType) / 3);
     }
-    const computeInfectionsByRequestedTimeForSevereImpact = (data) => {
-        return computeCurrentlyInfectedForSevereImpact(data) * 2 ** Math.trunc(convertToDays(data.timeToElapse, data.periodType) / 3);
+    const computeInfectionsByRequestedTimeForSevereImpact = (input) => {
+        return computeCurrentlyInfectedForSevereImpact(input) * 2 ** Math.trunc(convertToDays(input.timeToElapse, input.periodType) / 3);
     }
 
     //compute severeCasesByRequestedTime for impact and severe impact - challange 1
-    const computeSevereCasesByRequestedTimeForImpact = (data) => {
-        return  Math.trunc(computeInfectionsByRequestedTimeForImpact(data) * 0.15);
+    const computeSevereCasesByRequestedTimeForImpact = (input) => {
+        return  Math.trunc(computeInfectionsByRequestedTimeForImpact(input) * 0.15);
     }
-    const computeSevereCasesByRequestedTimeForSevereImpact = (data) => {
-        return  Math.trunc(computeInfectionsByRequestedTimeForSevereImpact(data) * 0.15);
+    const computeSevereCasesByRequestedTimeForSevereImpact = (input) => {
+        return  Math.trunc(computeInfectionsByRequestedTimeForSevereImpact(input) * 0.15);
     }
 
     return {
-        data,
+        input,
         impact: {
-            currentlyInfected: computeCurrentlyInfectedForImpact(data),
-            infectionsByRequestedTime: computeInfectionsByRequestedTimeForImpact(data),
-            severeCasesByRequestedTime: computeSevereCasesByRequestedTimeForImpact(data)
+            currentlyInfected: computeCurrentlyInfectedForImpact(input),
+            infectionsByRequestedTime: computeInfectionsByRequestedTimeForImpact(input),
+            severeCasesByRequestedTime: computeSevereCasesByRequestedTimeForImpact(input)
         },
         severeImpact: {
-            currentlyInfected: computeCurrentlyInfectedForSevereImpact(data),
-            infectionsByRequestedTime: computeInfectionsByRequestedTimeForSevereImpact(data),
-            severeCasesByRequestedTime: computeSevereCasesByRequestedTimeForSevereImpact(data)
+            currentlyInfected: computeCurrentlyInfectedForSevereImpact(input),
+            infectionsByRequestedTime: computeInfectionsByRequestedTimeForSevereImpact(input),
+            severeCasesByRequestedTime: computeSevereCasesByRequestedTimeForSevereImpact(input)
         }
     }
 };
