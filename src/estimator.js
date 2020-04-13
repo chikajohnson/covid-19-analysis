@@ -37,7 +37,7 @@ const covid19ImpactEstimator = (data) => {
 
   const impact = (input) => {
     const infected = input.reportedCases * 10;
-    const infectedByReqTime = infected * 2 ** Math.trunc(convertToDays(input.timeToElapse, input.periodType) / 3);
+    const infectedByReqTime = infected * 2 ** (convertToDays(input.timeToElapse, input.periodType) / 3);
     const severeByReqTime = Math.trunc(infectedByReqTime * 0.15);
     const hospitalBeds = Math.trunc((input.totalHospitalBeds * 0.35) - severeByReqTime);
     const icuByReqTime = Math.trunc(infectedByReqTime * 0.05);
@@ -58,11 +58,11 @@ const covid19ImpactEstimator = (data) => {
 
   const severeImpact = (input) => {
     const infected = input.reportedCases * 50;
-    const infectedByReqTime = infected * 2 ** Math.trunc(convertToDays(input.timeToElapse, input.periodType) / 3);
+    const infectedByReqTime = infected * 2 ** (convertToDays(input.timeToElapse, input.periodType) / 3);
     const severeByReqTime = Math.trunc(infectedByReqTime * 0.15);
     const hospitalBeds = Math.trunc((input.totalHospitalBeds * 0.35) - severeByReqTime);
     const icuByReqTime = Math.trunc(infectedByReqTime * 0.05);
-    const ventilatorsByReqTime = Math.trunc(infectedByReqTime * 0.02);
+    const ventilatorsByReqTime = infectedByReqTime * 0.02;
     const incomePerPopulation = input.region.avgDailyIncomePopulation;
     const AvgDailyIcome = input.region.avgDailyIncomeInUSD;
     const dollarsInFlight = Math.trunc((infectedByReqTime * incomePerPopulation * AvgDailyIcome) / 30);
